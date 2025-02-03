@@ -7,7 +7,7 @@ const walletController = require('../controllers/walletController');
 const referController=require('../controllers/referrdController');
 const { verifyDeviceId,getVerifyDeviceId } = require("../middlewares/verifyDeviceId");
 
-user_route.post('/deposit', walletController.depositFunds);
+user_route.post('/deposit',verifyDeviceId, walletController.depositFunds);
 user_route.post('/adminDeposit', walletController.depositFunds);
 user_route.post('/withdraw',verifyDeviceId, walletController.withdrawFunds);
 user_route.post('/adminWithdraw', walletController.withdrawFunds);
