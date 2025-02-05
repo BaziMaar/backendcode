@@ -3,29 +3,34 @@ const User = require('../models/userModel');
 const Ref=require(`../models/referModel`);
 
 const Wallet=require('../models/walletModel');
+const Utr=require('../models/UtrModel');
 const addFunds = async (phone, amount, utr) => {
   try {
     // Find user by phone
     const user = await User.findOne({ phone });
 
-    // If user not found, throw an error
     if (!user) {
       throw new Error('User not found');
     }
 
-    // Update the user's wallet balance
-    if (utr === ""|| !utr) {
+    // Check if the UTR is already used
+    if (utr) {
+      const existingUtr = await Utr.findOne({ utr });
+      if (existingUtr) {
+        throw new Error('UTR already used');
+      }
+    }
+
+    // If UTR is empty or not provided, update wallet immediately
+    if (!utr) {
       user.wallet += amount;
       const referredUser = await User.findOne({ refer_id: user.user_id });
-      console.log(`>>>>>referred>>>>>`,referredUser)
-      console.log(`>>>>>>>>>>>amount>>>`,amount)
-
       if (referredUser) {
         const referralBonus = 0.02 * amount;
         referredUser.referred_wallet += referralBonus;
         await referredUser.save();
 
-        // Handle the referral transaction in the `Ref` collection
+        // Handle referral transaction in the `Ref` collection
         let ref = await Ref.findOne({ phone: referredUser.phone });
         const referralTransaction = {
           user_id: user.user_id,
@@ -48,10 +53,6 @@ const addFunds = async (phone, amount, utr) => {
       }
     }
 
-    // Handle referral bonus logic if there is a referred user
-    
-
-    // Save the updated user
     await user.save();
 
     // Find or create a wallet for the user
@@ -64,23 +65,24 @@ const addFunds = async (phone, amount, utr) => {
       });
     }
 
-    // Add the transactions based on `utr`
-    if (utr !== "") {
-      console.log(`>>>>>>inner`)
-      wallet.walletTrans.push({ time: new Date(), amount, status: 0, utr:utr });
-    }
-    else{
+    // Add transaction
+    if (utr) {
+      wallet.walletTrans.push({ time: new Date(), amount, status: 0, utr });
+
+      // Store UTR to prevent duplicate use
+      const newUtr = new Utr({
+        utr,
+        phone
+      });
+      await newUtr.save();
+    } else {
       wallet.walletTrans.push({ time: new Date(), amount, status: 1 });
     }
-    console.log(`>>>>>>>`,{ time: new Date(), amount, status: 0, utr })
 
-    // Add the final confirmed transaction
-    
+    console.log(`>>>>>>>`, { time: new Date(), amount, status: 0, utr });
 
-    // Save the updated wallet
     await wallet.save();
 
-    // Return the updated wallet balance
     return user.wallet;
 
   } catch (error) {
