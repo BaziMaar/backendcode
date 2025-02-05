@@ -433,55 +433,55 @@ const sendColorMoney = async (io, phone, color, number, size, amount,globalNumbe
 
     if (color === 0) {
 
-      allBet[0]+=4.5*amount
-      allBet[5]+=4.5*amount
-      firstBet += 2 * amount; 
+      allBet[0]+=4.41*amount
+      allBet[5]+=4.41*amount
+      firstBet += 1.96 * amount; 
     } 
     else if (color === 1) {
-      allBet[1]+=1.9*amount
-      allBet[3]+=1.9*amount
-      allBet[5]+=1.5*amount
-      allBet[7]+=1.9*amount
-      allBet[9]+=1.9*amount
-      secondBet += 2 * amount; // Adjusted for the green
+      allBet[1]+=1.96*amount
+      allBet[3]+=1.96*amount
+      allBet[5]+=1.47*amount
+      allBet[7]+=1.96*amount
+      allBet[9]+=1.96*amount
+      secondBet += 1.96 * amount; // Adjusted for the green
     } 
     else if (color === 2) {
-      allBet[0]+=1.5*amount
-      allBet[2]+=1.9*amount
-      allBet[4]+=1.9*amount
-      allBet[6]+=1.9*amount
-      allBet[8]+=1.9*amount
-      thirdBet += 2 * amount; // Adjusted for the red
+      allBet[0]+=1.47*amount
+      allBet[2]+=1.96*amount
+      allBet[4]+=1.96*amount
+      allBet[6]+=1.96*amount
+      allBet[8]+=1.96*amount
+      thirdBet += 1.96 * amount; // Adjusted for the red
     } 
     else if (size === 0) {
-      allBet[0]+=1.9*amount
-      allBet[1]+=1.9*amount
-      allBet[2]+=1.9*amount
-      allBet[3]+=1.9*amount
-      allBet[4]+=1.9*amount
-      smallSizeBet += 2 * amount;
+      allBet[0]+=1.96*amount
+      allBet[1]+=1.96*amount
+      allBet[2]+=1.96*amount
+      allBet[3]+=1.96*amount
+      allBet[4]+=1.96*amount
+      smallSizeBet += 1.96 * amount;
     } 
     else if (size === 1) {
-      allBet[5]+=1.9*amount
-      allBet[6]+=1.9*amount
-      allBet[7]+=1.9*amount
-      allBet[8]+=1.9*amount
-      allBet[9]+=1.9*amount
-      bigSizeBet += 2 * amount;
+      allBet[5]+=1.96*amount
+      allBet[6]+=1.96*amount
+      allBet[7]+=1.96*amount
+      allBet[8]+=1.96*amount
+      allBet[9]+=1.96*amount
+      bigSizeBet += 1.96 * amount;
     } 
     else if (number >= 0 && number <= 9) {
-      allBet[number]+=9*amount
+      allBet[number]+=8.81*amount
       switch (number) {
-        case 0: zeroNumberBet += 9 * amount; break;
-        case 1: oneNumberBet += 9 * amount; break;
-        case 2: twoNumberBet += 9 * amount; break;
-        case 3: threeNumberBet += 9 * amount; break;
-        case 4: fourNumberBet += 9 * amount; break;
-        case 5: fiveNumberBet += 9 * amount; break;
-        case 6: sixNumberBet += 9 * amount; break;
-        case 7: sevenNumberBet += 9 * amount; break;
-        case 8: eightNumberBet += 9 * amount; break;
-        case 9: nineNumberBet += 9 * amount; break;
+        case 0: zeroNumberBet += 8.81 * amount; break;
+        case 1: oneNumberBet += 8.81 * amount; break;
+        case 2: twoNumberBet += 8.81 * amount; break;
+        case 3: threeNumberBet += 8.81 * amount; break;
+        case 4: fourNumberBet += 8.81 * amount; break;
+        case 5: fiveNumberBet += 8.81 * amount; break;
+        case 6: sixNumberBet += 8.81 * amount; break;
+        case 7: sevenNumberBet += 8.81 * amount; break;
+        case 8: eightNumberBet += 8.81 * amount; break;
+        case 9: nineNumberBet += 8.81 * amount; break;
       }
     } 
     else {
@@ -529,21 +529,21 @@ const receiveMoney = async (io, phone, color, number, size, amount, globalNumber
       throw new Error('Sender not found');
     }
     if (color === 0 && (winner === 0 || winner === 5)) {
-      winning = amount * 4.5;
+      winning = amount * 4.41;
     } else if (color === 1 && winner % 2 === 1 && winner !== 5) {
-      winning = amount * 1.9;
+      winning = amount * 1.96;
     } else if (color === 2 && winner % 2 === 0 && winner !== 0) {
-      winning = amount * 1.9;
+      winning = amount * 1.96;
     } else if (color === 2 && winner === 0) {
-      winning = amount * 1.5;
+      winning = amount * 1.47;
     } else if (color === 1 && winner === 5) {
-      winning = amount * 1.5;
+      winning = amount * 1.47;
     } else if (size === 0 && winner < 5 ) {
-      winning = amount * 1.9;
+      winning = amount * 1.96;
     } else if (size === 1 && winner >= 5) {
-      winning = amount * 1.9;
+      winning = amount * 1.96;
     } else if (number === winner ) {
-      winning = amount * 9;
+      winning = amount * 8.81;
     } else {
       winning = amount * 0;
     }
