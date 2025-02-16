@@ -11,7 +11,7 @@ user_route.post('/deposit',verifyDeviceId, walletController.depositFunds);
 user_route.post('/adminDeposit', walletController.depositFunds);
 user_route.post('/withdraw',verifyDeviceId, walletController.withdrawFunds);
 user_route.post('/adminWithdraw', walletController.withdrawFunds);
-// user_route.get('/getWallet',getVerifyDeviceId,walletController.getWallet);
+user_route.get('/getWallet',getVerifyDeviceId,walletController.getWallet);
 user_route.get('/getAdminWallet',walletController.getWallet);
 user_route.get('/getTrans',walletController.getWalletTrans);
 user_route.post('/updateStatus', walletController.updateStatus);
